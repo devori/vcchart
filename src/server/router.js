@@ -8,6 +8,7 @@ let userDb = lowdb('src/data/user.json');
 router.get('/:vcType/data', function(req, res) {
   let vcType = req.params.vcType;
   let result = db.value();
+  console.log(result);
   res.json(result);
 });
 
@@ -19,7 +20,7 @@ router.post('/trade', function (req, res) {
   if(user.history == undefined){
       user.history = [];
   }
-  
+
   var history = {
     'vcType' : req.body.vcType,
     'tradeType' : req.body.tradeType,
