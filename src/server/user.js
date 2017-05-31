@@ -22,8 +22,10 @@ router.post('/add', function (req, res) {
 
   let user = req.body.user;
   let seq = db.get('seq').value() + 1;
+
   user.id = seq;
   user.history = new Array();
+  user.money = 1000000;
 
   db.get('users').push(user).write();
   db.set('seq', seq).write();

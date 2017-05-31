@@ -23,7 +23,7 @@
 </div>
 
   <div>
-    history
+    <h3>history</h3>
   </div>
   <div id="historyList">
   </div>
@@ -69,6 +69,19 @@
         console.log(response);
       });
     });
+    getHistory()
   });
+
+  function getHistory(){
+    fetch('http://localhost:3000/api/v1/trade/history/'+USER_ID).then((response) => {
+      response.json().then(user => {
+
+        user.history.forEach((history)=>{
+          console.log(history);
+          $('#historyList').append($('<div/>').text(history.tradeType + ' ' + history.vcType + ' '+history.amount + ' '+new Date(history.date)));
+        });
+      });
+    });
+  }
 </script>
 </html>
