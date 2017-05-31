@@ -5,10 +5,7 @@ let router = require('./router');
 let collector = require('./collector');
 
 app.use('/api/v1', router);
-
-app.get('/', function (req, res) {
-  res.sendfile(path.resolve(__dirname, '../html/index.html'));
-});
+app.use(express.static('src/public'));
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');

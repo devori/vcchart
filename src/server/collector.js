@@ -5,12 +5,12 @@ let db = lowdb('src/data/prices.json');
 let intervalId;
 
 function start(vcType) {
-  intervalId = setInterval(() => {
-    get(vcType).then((data) => {
-      let priceData = JSON.parse(data).data;
-      db.push(priceData).write();
-    });
-  }, 1000 * 60)
+  // intervalId = setInterval(() => {
+  //   get(vcType).then((data) => {
+  //     let priceData = JSON.parse(data).data;
+  //     db.push(priceData).write();
+  //   });
+  // }, 1000 * 60)
 }
 
 function stop() {

@@ -24,6 +24,7 @@
     "request": "^2.81.0"
   },
   "devDependencies": {
+    "amstock3": "github:amcharts/amstock3",
     "supervisor": "^0.12.0"
   }
 }

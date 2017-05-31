@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
+let lowdb = require('lowdb');
+let db = lowdb('src/data/prices.json');
 
 /* GET home page. */
 router.get('/:vcType/data', function(req, res) {
   let vcType = req.params.vcType;
-  res.json([
-    {'price': 100, 'timestamp': new Date().getTime() },
-    {'price': 200, 'timestamp': (new Date().getTime() + 1000) }
-  ]);
+  let result = db.value();
+  res.json(result);
 });
 
 module.exports = router;
