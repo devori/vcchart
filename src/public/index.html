@@ -5,11 +5,11 @@
 </head>
 
 <body>
-  <div>
+  <div style="width:100%">
     <canvas id="myChart" width="1000" height="400"></canvas>
+    <div style="background-color:#FFFF66;width:150;height:150;border-radius:50%"></div>
   </div>
   <div>
-    <div style="background-color:#FFFF66;width:150;height:150;border-radius:50%"></div>
   </div>
 </body>
 <script type="text/javascript">
@@ -19,6 +19,7 @@ var myChart = new Chart(canvas, {
     data: {
       datasets: [{
           label:"한국 거래",
+          pointHitRadius: 30,
           fillColor: "rgba(220,220,220,0)",
           strokeColor: "rgba(100,100,100,0)",
           pointColor: "rgba(220,180,0,1)",
@@ -26,9 +27,11 @@ var myChart = new Chart(canvas, {
       },
       {
           label:"미국 거래",
-          fillColor: "#ff6384",
-          strokeColor: "rgba(100,100,100,0)",
-          pointColor: "rgba(220,180,0,1)",
+          pointHitRadius: 30,
+          backgroundColor:"rgba(255,255,102,0.5)",
+          fillColor: "rgba(255,255,102,1)",
+          strokeColor: "rgba(255,255,102,1)",
+          pointColor: "rgba(255,255,102,1)",
           data: []
       }],
       rawData: []
@@ -67,17 +70,26 @@ canvas.onclick = function(evt) {
   console.log(myChart.data.datasets[0].rawData[activePoint._index]);
 };
 
+let max, min;
 fetch('http://localhost:3000/api/v1/BTC/data').then((response) => {
   response.json().then(body => {
     let datasetIndex = 0;
     for (let k in body) {
       let data = body[k];
       let newData = [];
+      max = data[0].price;
+      min = data[0].price;
       data.forEach((item)=>{
         newData.push({
           x: moment(item.timestamp),
           y: Number(item.price)
         });
+        if(item.price > max){
+          max = item.price;
+        }
+        if(min > item.price){
+          min = item.price;
+        }
       });
       myChart.data.datasets[datasetIndex].data = newData;
       myChart.data.datasets[datasetIndex].rawData = data;
@@ -88,5 +100,7 @@ fetch('http://localhost:3000/api/v1/BTC/data').then((response) => {
     console.log(body);
   });
 });
+
+let diff = max - min;
 </script>
 </html>
