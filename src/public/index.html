@@ -8,12 +8,11 @@
   <div style="background-image:url('temp.png');background-position:center center;background-size:100%;background-repeat:no-repeat;width:100%;height:200">
   </div>
   <div style="width:100%;margin-top:20">
-    <canvas id="myChart" width="1000" height="400" style="display:inline"></canvas>
+    <canvas id="myChart" width="1200" height="600" style="display:inline"></canvas>
     <div style="float:right;display:inline;background-color:#FFFF66;width:150;height:400">
       <div style="margin:20px;display:block">
         <div style="font-size:12px">한국 거래 최대금액:<br/><div id="max_price"></div></div>
         <div style="font-size:12px">미국 거래 최저금액:<br/><div id="min_price"></div></div>
-        <div style="font-size:12px">최대 차액:<br/><div id="diff_price"></div></div>
       </div>
     </div>
   </div>
@@ -79,14 +78,17 @@ canvas.onclick = function(evt) {
 };
 
 let max, min;
-fetch('http://localhost:3000/api/v1/BTC/data').then((response) => {
+fetch('api/v1/BTC/data').then((response) => {
   response.json().then(body => {
     let datasetIndex = 0;
     for (let k in body) {
       let data = body[k];
       let newData = [];
-      max = data[0].price;
+      if(k===0){
+      }
       min = data[0].price;
+      max = data[0].price;
+
       data.forEach((item)=>{
         newData.push({
           x: moment(item.timestamp),
@@ -110,7 +112,7 @@ fetch('http://localhost:3000/api/v1/BTC/data').then((response) => {
     let diff = max - min;
     document.getElementById("max_price").innerText = "$" + max;
     document.getElementById("min_price").innerText = "$" + min;
-    document.getElementById("diff_price").innerText = "$" + diff;
+    //document.getElementById("diff_price").innerText = "$" + diff;
   });
 });
 
