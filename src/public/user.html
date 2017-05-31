@@ -1,0 +1,74 @@
+<html>
+<head>
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <select id="vcType">
+      <option value="">선택</option>
+      <option value="BTC">BTC</option>
+  </select>
+
+<div>
+  <input type="text"  id="sellAmount" placeholder="판매 수량">
+  <button type="button" id="btnSell">판매</button>
+</div>
+<div>
+  <input type="text"  id="buyAmount" placeholder="구매 수량">
+  <button type="button" id="btnBuy">구매</button>
+</div>
+
+  <div>
+    history
+  </div>
+  <div id="historyList">
+  </div>
+
+</body>
+<script>
+  var USER_ID = ''
+  $(document).ready(function(){
+    USER_ID = window.location.pathname.split('/')[2];
+    console.log(USER_ID);
+
+    $('#btnSell').on('click', () => {
+
+      var sell = {
+        userId : USER_ID,
+        vcType : $("#vcType option:selected").val(),
+        tradeType : 'sell',
+        amount : $('#sellAmount').val()
+      }
+
+      fetch('http://localhost:3000/api/v1/trade', {
+        method:"POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify( sell )
+      }).then((response) => {
+        console.log(response);
+      });
+    });
+
+    $('#btnBuy').on('click', () => {
+      var buy = {
+        userId : USER_ID,
+        vcType : $("#vcType option:selected").val(),
+        tradeType : 'buy',
+        amount : $('#buyAmount').val()
+      }
+
+      fetch('http://localhost:3000/api/v1/trade', {
+        method:"POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify( buy )
+      }).then((response) => {
+        console.log(response);
+      });
+    });
+  });
+</script>
+</html>
